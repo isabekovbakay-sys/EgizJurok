@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>EgizJurek — Парные худи и зипки</title>
+  <meta name="description" content="EgizJurek — магазин парных худи и зипок. Мобильная версия." />
+  <style>
+    :root{
+      --bg:#0f1724;
+      --accent:#ff7f7f;
+      --muted:#94a3b8;
+      --card:#0b1220;
+      --radius:14px;
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      background:linear-gradient(180deg,#0f1724 0%,#08101f 100%);
+      color:#fff;
+      display:flex;
+      justify-content:center;
+      padding:16px;
+      font-size:15px;
+    }
+    .wrap{
+      width:420px;
+      max-width:100%;
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+    }
+    header{
+      display:flex;align-items:center;justify-content:space-between;
+    }
+    .logo{font-size:20px;font-weight:700;color:var(--accent);}
+    .subtitle{font-size:12px;color:var(--muted)}
+
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+    .card{
+      background:rgba(255,255,255,0.03);
+      border-radius:var(--radius);
+      padding:8px;
+      display:flex;flex-direction:column;align-items:center;
+      gap:8px;
+    }
+    .card img{width:100%;border-radius:var(--radius);object-fit:cover;height:140px}
+    .pname{font-weight:600;text-align:center}
+    .price{font-weight:700;color:var(--accent)}
+    .btn{background:var(--accent);border:0;padding:8px 10px;border-radius:10px;color:#000;font-weight:600;cursor:pointer;width:100%;}
+
+    footer{text-align:center;color:var(--muted);font-size:12px;margin-top:20px;}
+  </style>
+</head>
+<body>
+  <div class="wrap" id="app">
+    <header>
+      <div>
+        <div class="logo">EgizJurek</div>
+        <div class="subtitle">Парные худи и зипки</div>
+      </div>
+    </header>
+
+    <main>
+      <div class="grid" id="catalog"></div>
+    </main>
+
+    <footer>© <span id="year"></span> EgizJurek — Все права защищены</footer>
+  </div>
+
+  <script>
+    // WhatsApp link — замените номер на свой
+    const WHATSAPP = 'https://wa.me/996500480778?text=';
+
+    const PRODUCTS = [
+      {id:1,name:'Парные худи «Together»',price:3490,img:'https://picsum.photos/seed/hoodie1/600/400',desc:'Мягкие худи для пары, доступно в нескольких цветах.'},
+      {id:2,name:'Парные зипки «Forever»',price:3790,img:'https://picsum.photos/seed/zip1/600/400',desc:'Зипки унисекс, комфорт и стиль вдвоём.'},
+      {id:3,name:'Парные худи «Love You»',price:3590,img:'https://picsum.photos/seed/hoodie2/600/400',desc:'Минималистичный дизайн, уютный материал.'},
+      {id:4,name:'Парные зипки «Soulmate»',price:3890,img:'https://picsum.photos/seed/zip2/600/400',desc:'Тёплые зипки с вышивкой на груди.'}
+    ];
+
+    function money(n){return n.toLocaleString('ru-RU')+' сом';}
+
+    function renderCatalog(){
+      const cont=document.getElementById('catalog');
+      cont.innerHTML='';
+      PRODUCTS.forEach(p=>{
+        const c=document.createElement('div');
+        c.className='card';
+        const msg=encodeURIComponent(`Здравствуйте! Я хочу заказать: ${p.name}\nЦена: ${money(p.price)}\n${p.desc}`);
+        c.innerHTML=`
+          <img src="${p.img}" alt="${p.name}" />
+          <div class="pname">${p.name}</div>
+          <div class="price">${money(p.price)}</div>
+          <button class="btn" onclick="window.open('${WHATSAPP+msg}','_blank')">Заказать в WhatsApp</button>
+        `;
+        cont.appendChild(c);
+      });
+    }
+
+    document.getElementById('year').textContent=new Date().getFullYear();
+    renderCatalog();
+  </script>
+</body>
+</html>
